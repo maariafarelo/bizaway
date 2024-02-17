@@ -37,7 +37,7 @@ export default function Forms() {
     <main className={styles.main}>
 
       <div className={styles.form}>
-        <label>   number of people   </label>
+        <label>   number of people:   </label>
         <input
           value={numPersons}
           onChange={handleNumPersonasChange}
