@@ -4,21 +4,22 @@ import React, { useState } from 'react';
 import styles from './page.module.css';
 
 interface Person {
-  name: string;
-  origin: string;
+  latitude: string;
+  longitude: string;
 }
 
 export default function Forms() {
-  const [numPersons, setNumPersons] = useState(0);
-  const [destination, setDestination] = useState("");
-  const [persons, setPersons] = useState<Person[]>([]);
+  const [numPersons, setNumPersons] = useState(1);
+  const [destinationLat, setDestinationLat] = useState("");
+  const [destinationLong, setDestinationLong] = useState("");
+  const [persons, setPersons] = useState<Person[]>([{ latitude: '', longitude: '' }]);
 
   const handleNumPersonasChange = (e: any) => {
     const newNumPersonas = e.target.value;
     setNumPersons(newNumPersonas);
     const newPersonasArray = Array.from({ length: newNumPersonas }, () => ({
-      name: '',
-      origin: '',
+      latitude: '',
+      longitude: '',
     }));
     setPersons(newPersonasArray);
   };
@@ -33,43 +34,78 @@ export default function Forms() {
     setPersons(updatedPersonas);
   };
 
+  const sendJson = () => {
+    const data = {
+      numPersons,
+      destination: {
+        latitude: destinationLat,
+        longitude: destinationLong,
+      },
+      persons,
+    };
+    console.log(data);
+  }
+
   return (
     <main className={styles.main}>
-
-      <div className={styles.form}>
-        <label>   number of people   </label>
-        <input
-          value={numPersons}
-          onChange={handleNumPersonasChange}
-          type="number"
-        />
-      </div>
-
-      <div className={styles.form}>
-        <label> destination: </label>
-        <input
-          type="text"
-          onChange={(e) => setDestination(e.target.value)}
-          value={destination}
-        />
-      </div>
-
-      {persons.map((persona, index) => (
-        <div key={index}>
-          <label>  Name:  </label>
+      <div className={styles.formContainer}>
+        <div className={styles.formLine}>
+          <label> Introduce el número de personas que va a viajar </label>
           <input
-            type="text"
-            value={persona.name}
-            onChange={(e) => handlePersonChange(index, 'name', e.target.value)}
-          />
-          <label>   Origen:   </label>
-          <input
-            type="text"
-            value={persona.origin}
-            onChange={(e) => handlePersonChange(index, 'origin', e.target.value)}
+            value={numPersons}
+            onChange={handleNumPersonasChange}
+            type="number"
+            className={styles.inputStyled}
           />
         </div>
-      ))}
+
+        <div className={styles.formLine}>
+          <label> Introduce el Aeropuerto de destino (Latitud i Longitud) </label>
+          <div className={styles.formLineRow}>
+            <input
+              type="text"
+              onChange={(e) => setDestinationLat(e.target.value)}
+              value={destinationLat}
+              className={styles.inputStyled}
+              placeholder={"Latitud"}
+            />
+            <input
+              type="text"
+              onChange={(e) => setDestinationLong(e.target.value)}
+              value={destinationLong}
+              className={styles.inputStyled}
+              placeholder={"Longitud"}
+            />
+          </div>
+
+        </div>
+
+        {persons.length > 0 && (
+          <h2 className={styles.titlePersons}> ¿Desde donde van a salir los que van a viajar? </h2>
+        )}
+
+        {persons.map((persona, index) => (
+          <div key={index} className={styles.formLineRow}>
+            <label> Persona {index + 1} </label>
+            <input
+              type="text"
+              value={persona.latitude}
+              onChange={(e) => handlePersonChange(index, 'latitude', e.target.value)}
+              className={styles.inputStyled}
+              placeholder={"Latitud"}
+            />
+            <input
+              type="text"
+              value={persona.longitude}
+              onChange={(e) => handlePersonChange(index, 'longitude', e.target.value)}
+              className={styles.inputStyled}
+              placeholder={"Longitud"}
+            />
+
+          </div>
+        ))}
+      </div>
+      <button className={styles.buttonSubmit} onClick={sendJson}>Submit!</button>
     </main>
   );
 }

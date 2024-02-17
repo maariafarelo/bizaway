@@ -2,22 +2,68 @@
     padding: 50px ;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-content: center;
     margin: 0 auto;
     gap: 10px;
     min-height: 100vh;
     background-image: radial-gradient(circle, #021b41, #022e6d, #13419c, #2e54cd, #4f67ff);
+    color: black;
 }
 
-.form {
-    flex-direction: row;
-    gap: 25px;
-    justify-content: center;
+.formContainer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-content: center;
-    font-size: 30px;
-    font-weight: 605;
-    margin-bottom: 30px;
+    gap: 20px;
+    border-radius: 5px;
+    background-color: rgba(245, 245, 245, 0.6);
+    width: 80%;
+    padding: 20px 10px;
+    margin: 0 auto;
+}
+
+.formLine {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.formLineRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+.titlePersons {
+    font-size: 20px;
+    font-weight: 700;
+    color: #232121;
+    margin-top: 20px;
+}
+
+.inputStyled {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f5f5f5;
+    color: black;
+}
+
+.buttonSubmit {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #499134;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 80%;
+    margin: 18px auto 0;
 }
