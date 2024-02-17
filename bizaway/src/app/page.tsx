@@ -7,7 +7,7 @@ export default function Home() {
         <h2 className={styles.title}> Welcome to Bizamaps! </h2>
         <img src="galicia.svg" />
         <a href= '/form'>
-          <button className={styles.button} > Start </button>
+          <button className={styles.button} > Start grouping people </button>
         </a>
       </div>
     </main>

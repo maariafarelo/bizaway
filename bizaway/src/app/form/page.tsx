@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './page.module.css';
 
 interface Person {
+  name: string;
   latitude: string;
   longitude: string;
 }
@@ -12,12 +13,13 @@ export default function Forms() {
   const [numPersons, setNumPersons] = useState(1);
   const [destinationLat, setDestinationLat] = useState("");
   const [destinationLong, setDestinationLong] = useState("");
-  const [persons, setPersons] = useState<Person[]>([{ latitude: '', longitude: '' }]);
+  const [persons, setPersons] = useState<Person[]>([{ name: '', latitude: '', longitude: '' }]);
 
   const handleNumPersonasChange = (e: any) => {
     const newNumPersonas = e.target.value;
     setNumPersons(newNumPersonas);
     const newPersonasArray = Array.from({ length: newNumPersonas }, () => ({
+      name: '',
       latitude: '',
       longitude: '',
     }));
@@ -36,18 +38,19 @@ export default function Forms() {
 
   const sendJson = () => {
     const data = {
-      numPersons,
+      num_pers: numPersons,
       destination: {
         latitude: destinationLat,
         longitude: destinationLong,
       },
-      persons,
+      users: persons,
     };
     console.log(data);
   }
 
   return (
     <main className={styles.main}>
+      <h2 className={styles.title}> Introduce los datos para optimizar el trayecto</h2>
       <div className={styles.formContainer}>
         <div className={styles.formLine}>
           <label> Introduce el número de personas que va a viajar </label>
@@ -86,7 +89,14 @@ export default function Forms() {
 
         {persons.map((persona, index) => (
           <div key={index} className={styles.formLineRow}>
-            <label> Persona {index + 1} </label>
+            <label> #{index + 1} </label>
+            <input
+              type="text"
+              value={persona.name}
+              onChange={(e) => handlePersonChange(index, 'name', e.target.value)}
+              className={styles.inputStyled}
+              placeholder={"Nombre"}
+            />
             <input
               type="text"
               value={persona.latitude}
