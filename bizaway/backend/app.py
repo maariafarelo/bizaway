@@ -30,21 +30,30 @@ def function_response():
         coord_finals = request.json['destination'] #latitude / longitude
         persons = request.json['users'] #name / latitude / longitude
         distancia_desti = []
-        data = {}
+        
         goes_with_friend = []
+
+        result = []
 
         for i in range(int(num_pers)):
             goes_with_friend.append(False)
 
         for i in range(int(num_pers)):
+            friend = "None"
             distancia_desti.append(getDistanceBetweenPoints(float(persons[i].get('latitude')), float(persons[i].get('longitude')), float(coord_finals.get('latitude')), float(coord_finals.get('longitude'))))
-
             for j in range(int(num_pers)):
                 if j!=i:
                     dist_pers = getDistanceBetweenPoints(float(persons[i].get('latitude')), float(persons[i].get('longitude')), float(persons[j].get('latitude')), float(persons[j].get(('longitude'))))
                     if (not goes_with_friend[j] and dist_pers < distancia_desti[i]):
                         distancia_desti[i] = dist_pers
                         goes_with_friend[i] = True
-                        
+                        friend = persons[j].get('name')
+            nested_data = {
+                "name" : persons[i].get('name'),
+                "direct" : not goes_with_friend[i],
+                "friend" : friend
+            }
+            result.append(nested_data)
+        return json.dumps(result)
 if __name__ == '__main__':
     app.run()
