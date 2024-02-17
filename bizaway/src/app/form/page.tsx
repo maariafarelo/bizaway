@@ -9,12 +9,22 @@ interface Person {
   longitude: string;
 }
 
+interface PersonErrors {
+  name: boolean;
+  latitude: boolean;
+  longitude: boolean;
+}
+
 export default function Forms() {
   const [numPersons, setNumPersons] = useState(1);
   const [numPersonsError, setNumPersonsError] = useState(false);
   const [destinationLat, setDestinationLat] = useState("");
+  const [destinationLatError, setDestinationLatError] = useState(false);
   const [destinationLong, setDestinationLong] = useState("");
+  const [destinationLongError, setDestinationLongError] = useState(false);
   const [persons, setPersons] = useState<Person[]>([{ name: '', latitude: '', longitude: '' }]);
+  const [personErrors, setPersonErrors] = useState<PersonErrors[]>([{ name: false, latitude: false, longitude: false }]);
+
 
   const handleNumPersonasChange = (e: any) => {
     const newNumPersonas = e.target.value;
@@ -24,7 +34,14 @@ export default function Forms() {
       latitude: '',
       longitude: '',
     }));
+    const newPersonErrorsArray = Array.from({ length: newNumPersonas }, () => ({
+      name: false,
+      latitude: false,
+      longitude: false,
+    }));
+
     setPersons(newPersonasArray);
+    setPersonErrors(newPersonErrorsArray);
   };
 
   const handlePersonChange = (index: any, key: any, value: any) => {
@@ -38,20 +55,57 @@ export default function Forms() {
   };
 
   const sendJson = () => {
+    let isValid = true;
+
     if (numPersons <= 0) {
       setNumPersonsError(true);
+      isValid = false;
+    } else {
+      setNumPersonsError(false);
     }
 
+    if (destinationLat === "") {
+      setDestinationLatError(true);
+      isValid = false;
+    } else {
+      setDestinationLatError(false);
+    }
 
-    const data = {
-      num_pers: numPersons,
-      destination: {
-        latitude: destinationLat,
-        longitude: destinationLong,
-      },
-      users: persons,
-    };
-    console.log(data);
+    if (destinationLong === "") {
+      setDestinationLongError(true);
+      isValid = false;
+    } else {
+      setDestinationLongError(false);
+    }
+
+    const updatedPersonErrors = persons.map(person => ({
+      name: person.name.trim() === '',
+      latitude: person.latitude.trim() === '' || !person.latitude.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/),
+      longitude: person.longitude.trim() === '' || !person.longitude.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/),
+    }));
+
+    // Check if there are any errors in persons
+    const hasPersonErrors = updatedPersonErrors.some(errors => errors.name || errors.latitude || errors.longitude);
+    if (hasPersonErrors) {
+      isValid = false;
+    }
+
+    setPersonErrors(updatedPersonErrors);
+
+    if (!isValid) {
+      console.log("Validation failed. Please correct the errors before submitting.");
+      return;
+    } else {
+      const data = {
+        num_pers: numPersons,
+        destination: {
+          latitude: destinationLat,
+          longitude: destinationLong,
+        },
+        users: persons,
+      };
+      console.log(data);
+    }
   }
 
   return (
@@ -72,20 +126,26 @@ export default function Forms() {
         <div className={styles.formLine}>
           <label> Set the Latitude and the Longitude of the destination </label>
           <div className={styles.formLineRow}>
-            <input
-              type="text"
-              onChange={(e) => setDestinationLat(e.target.value)}
-              value={destinationLat}
-              className={styles.inputStyled}
-              placeholder={"Latitude"}
-            />
-            <input
-              type="text"
-              onChange={(e) => setDestinationLong(e.target.value)}
-              value={destinationLong}
-              className={styles.inputStyled}
-              placeholder={"Longitude"}
-            />
+            <div className={styles.errorInput}>
+              <input
+                type="text"
+                onChange={(e) => setDestinationLat(e.target.value)}
+                value={destinationLat}
+                className={styles.inputStyled}
+                placeholder={"Latitude"}
+              />
+              {destinationLatError ? <label className={styles.error}> Please enter a valid latitude </label> : null}
+            </div>
+            <div className={styles.errorInput}>
+              <input
+                type="text"
+                onChange={(e) => setDestinationLong(e.target.value)}
+                value={destinationLong}
+                className={styles.inputStyled}
+                placeholder={"Longitude"}
+              />
+              {destinationLongError ? <label className={styles.error}> Please enter a valid longitude </label> : null}
+            </div>
           </div>
 
         </div>
@@ -97,28 +157,36 @@ export default function Forms() {
         {persons.map((persona, index) => (
           <div key={index} className={styles.formLineRow}>
             <label> #{index + 1} </label>
-            <input
-              type="text"
-              value={persona.name}
-              onChange={(e) => handlePersonChange(index, 'name', e.target.value)}
-              className={styles.inputStyled}
-              placeholder={"Name"}
-            />
-            <input
-              type="text"
-              value={persona.latitude}
-              onChange={(e) => handlePersonChange(index, 'latitude', e.target.value)}
-              className={styles.inputStyled}
-              placeholder={"Latitude"}
-            />
-            <input
-              type="text"
-              value={persona.longitude}
-              onChange={(e) => handlePersonChange(index, 'longitude', e.target.value)}
-              className={styles.inputStyled}
-              placeholder={"Longitude"}
-            />
-
+            <div className={styles.errorInput}>
+              <input
+                type="text"
+                value={persona.name}
+                onChange={(e) => handlePersonChange(index, 'name', e.target.value)}
+                className={styles.inputStyled}
+                placeholder={"Name"}
+              />
+              {personErrors[index].name && <label className={styles.error}>Please enter a valid name</label>}
+            </div>
+            <div className={styles.errorInput}>
+              <input
+                type="text"
+                value={persona.latitude}
+                onChange={(e) => handlePersonChange(index, 'latitude', e.target.value)}
+                className={styles.inputStyled}
+                placeholder={"Latitude"}
+              />
+              {personErrors[index].latitude && <label className={styles.error}> Please enter a valid latitude </label>}
+            </div>
+            <div className={styles.errorInput}>
+              <input
+                type="text"
+                value={persona.longitude}
+                onChange={(e) => handlePersonChange(index, 'longitude', e.target.value)}
+                className={styles.inputStyled}
+                placeholder={"Longitude"}
+              />
+              {personErrors[index].longitude && <label className={styles.error}> Please enter a valid longitude </label>}
+            </div>
           </div>
         ))}
       </div>
