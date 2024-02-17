@@ -48,6 +48,9 @@
   background-color:rgba(2, 128, 254, 0.874);
 }
 
+.a {
+  width: 100%;
+}
 .error {
   color: red;
   font-size: 14px;
