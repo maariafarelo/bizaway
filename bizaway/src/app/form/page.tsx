@@ -11,6 +11,7 @@ interface Person {
 
 export default function Forms() {
   const [numPersons, setNumPersons] = useState(1);
+  const [numPersonsError, setNumPersonsError] = useState(false);
   const [destinationLat, setDestinationLat] = useState("");
   const [destinationLong, setDestinationLong] = useState("");
   const [persons, setPersons] = useState<Person[]>([{ name: '', latitude: '', longitude: '' }]);
@@ -37,6 +38,11 @@ export default function Forms() {
   };
 
   const sendJson = () => {
+    if (numPersons <= 0) {
+      setNumPersonsError(true);
+    }
+
+
     const data = {
       num_pers: numPersons,
       destination: {
@@ -50,41 +56,42 @@ export default function Forms() {
 
   return (
     <main className={styles.main}>
-      <h2 className={styles.title}> Introduce los datos para optimizar el trayecto</h2>
+      <h2 className={styles.title}> Fill with the data of the path to optimize </h2>
       <div className={styles.formContainer}>
         <div className={styles.formLine}>
-          <label> Introduce el número de personas que va a viajar </label>
+          <label> How many persons are travelling? </label>
           <input
             value={numPersons}
             onChange={handleNumPersonasChange}
             type="number"
             className={styles.inputStyled}
           />
+          {numPersonsError ? <label className={styles.error}> Please enter a valid number </label> : null}
         </div>
 
         <div className={styles.formLine}>
-          <label> Introduce el Aeropuerto de destino (Latitud i Longitud) </label>
+          <label> Set the Latitude and the Longitude of the destination </label>
           <div className={styles.formLineRow}>
             <input
               type="text"
               onChange={(e) => setDestinationLat(e.target.value)}
               value={destinationLat}
               className={styles.inputStyled}
-              placeholder={"Latitud"}
+              placeholder={"Latitude"}
             />
             <input
               type="text"
               onChange={(e) => setDestinationLong(e.target.value)}
               value={destinationLong}
               className={styles.inputStyled}
-              placeholder={"Longitud"}
+              placeholder={"Longitude"}
             />
           </div>
 
         </div>
 
         {persons.length > 0 && (
-          <h2 className={styles.titlePersons}> ¿Desde donde van a salir los que van a viajar? </h2>
+          <h2 className={styles.titlePersons}> Set the name and the origin for each person </h2>
         )}
 
         {persons.map((persona, index) => (
@@ -95,21 +102,21 @@ export default function Forms() {
               value={persona.name}
               onChange={(e) => handlePersonChange(index, 'name', e.target.value)}
               className={styles.inputStyled}
-              placeholder={"Nombre"}
+              placeholder={"Name"}
             />
             <input
               type="text"
               value={persona.latitude}
               onChange={(e) => handlePersonChange(index, 'latitude', e.target.value)}
               className={styles.inputStyled}
-              placeholder={"Latitud"}
+              placeholder={"Latitude"}
             />
             <input
               type="text"
               value={persona.longitude}
               onChange={(e) => handlePersonChange(index, 'longitude', e.target.value)}
               className={styles.inputStyled}
-              placeholder={"Longitud"}
+              placeholder={"Longitude"}
             />
 
           </div>
