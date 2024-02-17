@@ -35,31 +35,34 @@ export default function Forms() {
 
   return (
     <main className={styles.main}>
-      <div>
-        <label>Número de personas:</label>
+
+      <div className={styles.form}>
+        <label>   number of people   </label>
         <input
           value={numPersons}
           onChange={handleNumPersonasChange}
           type="number"
         />
       </div>
-      <div>
-        <label>Destinació:</label>
+
+      <div className={styles.form}>
+        <label> destination: </label>
         <input
           type="text"
           onChange={(e) => setDestination(e.target.value)}
           value={destination}
         />
       </div>
+
       {persons.map((persona, index) => (
         <div key={index}>
-          <label>Nombre:</label>
+          <label>  Name:  </label>
           <input
             type="text"
             value={persona.name}
             onChange={(e) => handlePersonChange(index, 'name', e.target.value)}
           />
-          <label>Origen:</label>
+          <label>   Origen:   </label>
           <input
             type="text"
             value={persona.origin}

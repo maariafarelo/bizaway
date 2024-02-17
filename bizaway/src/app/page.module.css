@@ -7,21 +7,29 @@
 	align-content: center;
   align-items: center;
   gap: 10px;
+  background-image: radial-gradient(circle, #021b41, #022e6d, #13419c, #2e54cd, #4f67ff);
+
 } 
 
 .textContainer {
-  display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 25px;
+  justify-content: center;
+  display: flex;
+	align-items: center;
+	align-content: center;
 }
 
 .title {
-  font-size: 50px;
+  font-size: 90px;
+  font-weight: 800;
 }
 
 .button{
   padding: 5px 10px;
-  border: 2px solid blueviolet;
+  border: 2px solid rgb(255, 255, 255);
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 30px;
+  font-weight: 500;
+  background-color: rgba(12, 12, 0, 0.363); 
 }

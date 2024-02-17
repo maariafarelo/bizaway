@@ -1,10 +1,23 @@
 .main {
-    padding: 50px 0;
-    width: 60%;
+    padding: 50px ;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: center;
     margin: 0 auto;
     gap: 10px;
+    min-height: 100vh;
+    background-image: radial-gradient(circle, #021b41, #022e6d, #13419c, #2e54cd, #4f67ff);
+}
+
+.form {
+    flex-direction: row;
+    gap: 25px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    font-size: 30px;
+    font-weight: 605;
+    margin-bottom: 30px;
 }
