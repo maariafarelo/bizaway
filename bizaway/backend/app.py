@@ -45,7 +45,7 @@ def function_response():
         for i in range(int(num_pers)):
             friend = "None"
             distancia_desti.append(getDistanceBetweenPoints(float(persons[i].get('latitude')), float(persons[i].get('longitude')), float(coord_finals.get('latitude')), float(coord_finals.get('longitude'))))
-            if(car_occupancy[i]>0):
+            if(car_occupancy[i]<1):
                 for j in range(int(num_pers)):
                     if j!=i:
                         dist_pers = getDistanceBetweenPoints(float(persons[i].get('latitude')), float(persons[i].get('longitude')), float(persons[j].get('latitude')), float(persons[j].get(('longitude'))))
