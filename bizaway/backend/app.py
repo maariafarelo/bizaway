@@ -45,14 +45,15 @@ def function_response():
         for i in range(int(num_pers)):
             friend = "None"
             distancia_desti.append(getDistanceBetweenPoints(float(persons[i].get('latitude')), float(persons[i].get('longitude')), float(coord_finals.get('latitude')), float(coord_finals.get('longitude'))))
-            for j in range(int(num_pers)):
-                if j!=i:
-                    dist_pers = getDistanceBetweenPoints(float(persons[i].get('latitude')), float(persons[i].get('longitude')), float(persons[j].get('latitude')), float(persons[j].get(('longitude'))))
-                    if (not goes_with_friend[j] and dist_pers < distancia_desti[i] and car_occupancy[j]<4):
-                        distancia_desti[i] = dist_pers
-                        ++car_occupancy[j]
-                        goes_with_friend[i] = True
-                        friend = persons[j].get('name')
+            if(car_occupancy[i]<1):
+                for j in range(int(num_pers)):
+                    if j!=i:
+                        dist_pers = getDistanceBetweenPoints(float(persons[i].get('latitude')), float(persons[i].get('longitude')), float(persons[j].get('latitude')), float(persons[j].get(('longitude'))))
+                        if (not goes_with_friend[j] and dist_pers < distancia_desti[i] and car_occupancy[j]<4):
+                            distancia_desti[i] = dist_pers
+                            ++car_occupancy[j]
+                            goes_with_friend[i] = True
+                            friend = persons[j].get('name')
             nested_data = {
                 "name" : persons[i].get('name'),
                 "direct" : not goes_with_friend[i],
