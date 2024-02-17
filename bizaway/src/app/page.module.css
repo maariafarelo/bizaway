@@ -37,10 +37,10 @@
   background-color: rgba(12, 12, 0, 0.363);
 }
 
-.buttonSubmit:hover {
+.button:hover {
   background-color:rgba(12, 12, 0, 0.363);
 }
 
-.buttonSubmit:active {
+.button:active {
   background-color:rgba(0, 49, 98, 0.874);
 }
