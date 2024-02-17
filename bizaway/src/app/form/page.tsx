@@ -80,8 +80,8 @@ export default function Forms() {
 
     const updatedPersonErrors = persons.map(person => ({
       name: person.name.trim() === '',
-      latitude: person.latitude.trim() === '' || !person.latitude.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/),
-      longitude: person.longitude.trim() === '' || !person.longitude.match(/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/),
+      latitude: person.latitude.trim() === '',
+      longitude: person.longitude.trim() === '',
     }));
 
     // Check if there are any errors in persons
